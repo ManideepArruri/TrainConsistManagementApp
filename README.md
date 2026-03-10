@@ -1,1 +1,1 @@
-Track Unique Bogie IDs (Set – HashSet)
+Maintain Ordered Bogie IDs using Linked List
