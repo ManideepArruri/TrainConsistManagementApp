@@ -1,1 +1,1 @@
-Maintain Ordered Bogie IDs using Linked List
+Preserve Insertion Order of Bogies (LinkedHashSet)
