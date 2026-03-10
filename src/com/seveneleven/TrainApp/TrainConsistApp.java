@@ -1,42 +1,49 @@
 /*
- * author : Developer
- * version : 2.0
- *  */
-
+ * =====================================================
+ * MAIN CLASS - UseCase3TrainConsistMgmt
+ * =====================================================
+ *
+ * Use Case 3: Track Unique Bogie IDs
+ *
+ * Description:
+ * This program demonstrates how HashSet ensures that
+ * duplicate bogie IDs are not stored in the train system.
+ *
+ * Operations performed:
+ * - Add bogie IDs
+ * - Attempt duplicate insertion
+ * - Display unique bogie IDs
+ *
+ * Concepts:
+ * Set interface
+ * HashSet
+ * uniqueness
+ * hashing
+ *
+ * @author Developer
+ * @version 3.0
+ */
 package com.seveneleven.TrainApp;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
  
 public class TrainConsistApp {
     public static void main(String[] args) {
-        System.out.println("UC2 - Add Passenger Bogies to Train");
- 
-        List<String> passengerBogies = new ArrayList<>();
- 
-        // Add bogies
-        passengerBogies.add("Sleeper");
-        passengerBogies.add("AC Chair");
-        passengerBogies.add("First Class");
- 
-        System.out.println("\nAfter Adding Bogies:");
-        System.out.println("Passenger Bogies : " + passengerBogies);
- 
-        // Remove one bogie
-        passengerBogies.remove("AC Chair");
- 
-        System.out.println("\nAfter Removing 'AC Chair':");
-        System.out.println("Passenger Bogies : " + passengerBogies);
- 
-        // Check existence
-        boolean containsSleeper = passengerBogies.contains("Sleeper");
- 
-        System.out.println("\nChecking if 'Sleeper' exists:");
-        System.out.println("Contains Sleeper? : " + containsSleeper);
- 
-        System.out.println("\nFinal Train Passenger Consist:");
-        System.out.println(passengerBogies);
- 
-        System.out.println("\nUC2 operations completed successfully...");
+    	
+    	System.out.println("====================================================");
+        System.out.println("      === Train Consist Management App ===");
+        System.out.println("====================================================\n");
+
+        Set<String> bogieIds = new HashSet<>();
+
+        bogieIds.add("BG101");
+        bogieIds.add("BG102");
+        bogieIds.add("BG103");
+        bogieIds.add("BG101");
+        bogieIds.add("BG102");
+
+        System.out.println("Unique Bogie IDs in Train:");
+        System.out.println(bogieIds);
     }
 }
