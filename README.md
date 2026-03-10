@@ -1,1 +1,1 @@
-Preserve Insertion Order of Bogies (LinkedHashSet)
+Map Bogie to Capacity (HashMap)
