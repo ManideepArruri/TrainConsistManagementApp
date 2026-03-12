@@ -1,1 +1,1 @@
-Map Bogie to Capacity (HashMap)
+Sort Bogies by Capacity (Comparator)
