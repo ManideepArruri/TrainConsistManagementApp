@@ -2,30 +2,30 @@
  * =============================================================
  * Project       : Train Consist Management App
  * Package       : com.seveneleven.trainconsist.main
- * Class Name    : UseCaseNineTrainConsistMgmt
+ * Class Name    : UseCaseTenTrainConsistMgmt
  *
- * Use Case      : UC Nine - Group Bogies by Type
+ * Use Case      : UC Ten - Count Total Seats in Train
  *
  * Description   :
- * This program demonstrates how Java Streams can group bogies
- * into categories using Collectors.groupingBy().
+ * This program demonstrates how Java Streams can aggregate
+ * numeric values using the reduce() operation.
  *
  * The application:
- * 1. Creates a list of bogies.
- * 2. Converts the list into a Stream.
- * 3. Groups bogies based on their type.
- * 4. Stores the grouped result inside a Map.
- * 5. Displays grouped bogie information.
+ * 1. Creates a list of passenger bogies.
+ * 2. Converts the list into a stream.
+ * 3. Extracts capacity values using map().
+ * 4. Uses reduce() to calculate the total seating capacity.
+ * 5. Displays the total seats available in the train.
  *
  * Concepts Demonstrated:
  * - Java Stream API
- * - groupingBy()
- * - Collectors
- * - Map<String, List<Bogie>>
- * - Lambda expressions
+ * - map()
+ * - reduce()
+ * - Method reference
+ * - Functional aggregation
  *
  * Author        : Developer
- * Version       : 9.0
+ * Version       : 10.0
  * =============================================================
  */
 
@@ -40,51 +40,47 @@ import java.util.stream.Collectors;
 public class TrainConsistApp {
 	static class Bogie {
 
-		String name;
-		String type;
-		int capacity;
+        String name;
+        int capacity;
 
-		public Bogie(String name, String type, int capacity) {
-			this.name = name;
-			this.type = type;
-			this.capacity = capacity;
-		}
+        public Bogie(String name, int capacity) {
+            this.name = name;
+            this.capacity = capacity;
+        }
 
-		public String getType() {
-			return type;
-		}
+        public int getCapacity() {
+            return capacity;
+        }
 
-		public String toString() {
-			return name + " - " + type + " - Capacity: " + capacity;
-		}
-	}
-	public static void main(String[] args) {
-		System.out.println("====================================================");
-		System.out.println("      === Train Consist Management App ===");
-		System.out.println("====================================================\n");
+        public String toString() {
+            return name + " - Capacity: " + capacity;
+        }
+    }
 
-		List<Bogie> bogies = new ArrayList<>();
+    public static void main(String[] args) {
 
-		bogies.add(new Bogie("Sleeper Coach", "Passenger", 72));
-		bogies.add(new Bogie("AC Chair Car", "Passenger", 56));
-		bogies.add(new Bogie("Coal Wagon", "Goods", 0));
-		bogies.add(new Bogie("Petroleum Tanker", "Goods", 0));
+        System.out.println("====================================================");
+        System.out.println("      === Train Consist Management App ===");
+        System.out.println("====================================================\n");
 
-		Map<String, List<Bogie>> groupedBogies =
-				bogies.stream()
-				.collect(Collectors.groupingBy(Bogie::getType));
+        List<Bogie> bogies = new ArrayList<>();
 
-		System.out.println("Grouped Bogies:\n");
+        bogies.add(new Bogie("Sleeper", 72));
+        bogies.add(new Bogie("AC Chair", 56));
+        bogies.add(new Bogie("First Class", 48));
+        bogies.add(new Bogie("Luxury AC", 80));
 
-		for (Map.Entry<String, List<Bogie>> entry : groupedBogies.entrySet()) {
+        System.out.println("Passenger Bogies:\n");
 
-			System.out.println(entry.getKey() + " Bogies:");
+        for (Bogie b : bogies) {
+            System.out.println(b);
+        }
 
-			for (Bogie b : entry.getValue()) {
-				System.out.println("   " + b);
-			}
+        int totalSeats =
+                bogies.stream()
+                      .map(b -> b.capacity)
+                      .reduce(0, Integer::sum);
 
-			System.out.println();
-		}
-	}
+        System.out.println("\nTotal Seating Capacity of Train: " + totalSeats);
+    }
 }

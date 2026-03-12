@@ -1,1 +1,1 @@
-Group Bogies by Type (Collectors.groupingBy)
+Count Total Seats in Train (reduce)
