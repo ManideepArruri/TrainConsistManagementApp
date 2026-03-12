@@ -1,1 +1,1 @@
-Filter Passenger Bogies Using Streams
+Group Bogies by Type (Collectors.groupingBy)

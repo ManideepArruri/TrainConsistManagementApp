@@ -2,84 +2,89 @@
  * =============================================================
  * Project       : Train Consist Management App
  * Package       : com.seveneleven.trainconsist.main
- * Class Name    : UseCaseEightTrainConsistMgmt
+ * Class Name    : UseCaseNineTrainConsistMgmt
  *
- * Use Case      : UC Eight - Filter Passenger Bogies using Streams
+ * Use Case      : UC Nine - Group Bogies by Type
  *
  * Description   :
- * This program demonstrates how the Java Stream API can be used
- * to filter passenger bogies based on seating capacity.
+ * This program demonstrates how Java Streams can group bogies
+ * into categories using Collectors.groupingBy().
  *
  * The application:
- * 1. Creates a list of passenger bogies.
- * 2. Converts the list into a Stream pipeline.
- * 3. Applies a filter condition to select bogies with capacity > 60.
- * 4. Collects the filtered bogies into a new list.
- * 5. Displays the filtered result.
+ * 1. Creates a list of bogies.
+ * 2. Converts the list into a Stream.
+ * 3. Groups bogies based on their type.
+ * 4. Stores the grouped result inside a Map.
+ * 5. Displays grouped bogie information.
  *
  * Concepts Demonstrated:
  * - Java Stream API
- * - stream()
- * - filter()
+ * - groupingBy()
+ * - Collectors
+ * - Map<String, List<Bogie>>
  * - Lambda expressions
- * - collect()
- * - Collectors.toList()
  *
  * Author        : Developer
- * Version       : 8.0
+ * Version       : 9.0
  * =============================================================
  */
 
 package com.seveneleven.TrainApp;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
- 
+
 public class TrainConsistApp {
 	static class Bogie {
 
-        String name;
-        int capacity;
+		String name;
+		String type;
+		int capacity;
 
-        public Bogie(String name, int capacity) {
-            this.name = name;
-            this.capacity = capacity;
-        }
+		public Bogie(String name, String type, int capacity) {
+			this.name = name;
+			this.type = type;
+			this.capacity = capacity;
+		}
 
-        public String toString() {
-            return name + " - Capacity: " + capacity;
-        }
-    }
-    public static void main(String[] args) {
-    	System.out.println("====================================================");
-        System.out.println("      === Train Consist Management App ===");
-        System.out.println("====================================================\n");
+		public String getType() {
+			return type;
+		}
 
-        List<Bogie> bogies = new ArrayList<>();
+		public String toString() {
+			return name + " - " + type + " - Capacity: " + capacity;
+		}
+	}
+	public static void main(String[] args) {
+		System.out.println("====================================================");
+		System.out.println("      === Train Consist Management App ===");
+		System.out.println("====================================================\n");
 
-        bogies.add(new Bogie("Sleeper", 72));
-        bogies.add(new Bogie("AC Chair", 56));
-        bogies.add(new Bogie("First Class", 48));
-        bogies.add(new Bogie("Luxury AC", 80));
+		List<Bogie> bogies = new ArrayList<>();
 
-        System.out.println("All Bogies:\n");
+		bogies.add(new Bogie("Sleeper Coach", "Passenger", 72));
+		bogies.add(new Bogie("AC Chair Car", "Passenger", 56));
+		bogies.add(new Bogie("Coal Wagon", "Goods", 0));
+		bogies.add(new Bogie("Petroleum Tanker", "Goods", 0));
 
-        for (Bogie b : bogies) {
-            System.out.println(b);
-        }
+		Map<String, List<Bogie>> groupedBogies =
+				bogies.stream()
+				.collect(Collectors.groupingBy(Bogie::getType));
 
-        List<Bogie> filteredBogies =
-                bogies.stream()
-                      .filter(b -> b.capacity > 60)
-                      .collect(Collectors.toList());
+		System.out.println("Grouped Bogies:\n");
 
-        System.out.println("\nBogies with Capacity > 60:\n");
+		for (Map.Entry<String, List<Bogie>> entry : groupedBogies.entrySet()) {
 
-        for (Bogie b : filteredBogies) {
-            System.out.println(b);
-        }
-    }
+			System.out.println(entry.getKey() + " Bogies:");
+
+			for (Bogie b : entry.getValue()) {
+				System.out.println("   " + b);
+			}
+
+			System.out.println();
+		}
+	}
 }
