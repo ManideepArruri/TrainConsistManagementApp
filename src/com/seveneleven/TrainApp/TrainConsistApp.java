@@ -2,32 +2,29 @@
  * =============================================================
  * Project       : Train Consist Management App
  * Package       : com.seveneleven.trainconsist.main
- * Class Name    : UseCaseTwelveTrainConsistMgmt
+ * Class Name    : UseCaseThirteenTrainConsistMgmt
  *
- * Use Case      : UC Twelve - Safety Compliance Check
+ * Use Case      : UC Thirteen - Performance Comparison
  *
  * Description   :
- * This program validates whether all goods bogies follow
- * safety rules using the Java Stream API.
- *
- * Business Rule:
- * Cylindrical bogies are allowed to carry only Petroleum.
+ * This program compares the execution time of traditional
+ * loop-based filtering versus Stream API filtering.
  *
  * The application:
- * 1. Creates a list of goods bogies.
- * 2. Converts the list into a stream.
- * 3. Applies safety validation using allMatch().
- * 4. Checks cargo compatibility with bogie shape.
- * 5. Displays whether the train formation is safe.
+ * 1. Creates a list of passenger bogies.
+ * 2. Filters bogies using a normal loop.
+ * 3. Measures execution time using System.nanoTime().
+ * 4. Filters bogies using Stream API.
+ * 5. Compares execution durations.
  *
  * Concepts Demonstrated:
- * - Java Stream API
- * - allMatch()
- * - Lambda expressions
- * - Business rule validation
+ * - Performance benchmarking
+ * - System.nanoTime()
+ * - Loop processing
+ * - Stream API filtering
  *
  * Author        : Developer
- * Version       : 12.0
+ * Version       : 13.0
  * =============================================================
  */
 package com.seveneleven.TrainApp;
@@ -43,18 +40,18 @@ import java.util.stream.Collectors;
 
 public class TrainConsistApp {
 	
-	static class GoodsBogie {
+	static class Bogie {
 
-        String shape;
-        String cargo;
+        String name;
+        int capacity;
 
-        public GoodsBogie(String shape, String cargo) {
-            this.shape = shape;
-            this.cargo = cargo;
+        public Bogie(String name, int capacity) {
+            this.name = name;
+            this.capacity = capacity;
         }
 
         public String toString() {
-            return shape + " Bogie carrying " + cargo;
+            return name + " - Capacity: " + capacity;
         }
     }
     public static void main(String[] args) {
@@ -63,28 +60,51 @@ public class TrainConsistApp {
         System.out.println("      === Train Consist Management App ===");
         System.out.println("====================================================\n");
 
-        List<GoodsBogie> goodsBogies = new ArrayList<>();
+        List<Bogie> bogies = new ArrayList<>();
 
-        goodsBogies.add(new GoodsBogie("Cylindrical", "Petroleum"));
-        goodsBogies.add(new GoodsBogie("Rectangular", "Coal"));
-        goodsBogies.add(new GoodsBogie("Cylindrical", "Petroleum"));
+        bogies.add(new Bogie("Sleeper", 72));
+        bogies.add(new Bogie("AC Chair", 56));
+        bogies.add(new Bogie("First Class", 48));
+        bogies.add(new Bogie("Luxury AC", 80));
+        bogies.add(new Bogie("General", 90));
 
-        System.out.println("Goods Bogies:\n");
+        long startLoop = System.nanoTime();
 
-        for (GoodsBogie g : goodsBogies) {
-            System.out.println(g);
+        List<Bogie> loopResult = new ArrayList<>();
+
+        for (Bogie b : bogies) {
+            if (b.capacity > 60) {
+                loopResult.add(b);
+            }
         }
 
-        boolean isSafe =
-                goodsBogies.stream()
-                        .allMatch(b ->
-                                !b.shape.equals("Cylindrical") ||
-                                b.cargo.equals("Petroleum"));
+        long endLoop = System.nanoTime();
 
-        if (isSafe) {
-            System.out.println("\nSafety Check Result: Train formation is SAFE.");
-        } else {
-            System.out.println("\nSafety Check Result: Train formation is NOT SAFE.");
+        long loopTime = endLoop - startLoop;
+
+        long startStream = System.nanoTime();
+
+        List<Bogie> streamResult =
+                bogies.stream()
+                      .filter(b -> b.capacity > 60)
+                      .collect(Collectors.toList());
+
+        long endStream = System.nanoTime();
+
+        long streamTime = endStream - startStream;
+
+        System.out.println("Loop Filtering Result:");
+        for (Bogie b : loopResult) {
+            System.out.println(b);
         }
+
+        System.out.println("\nStream Filtering Result:");
+        for (Bogie b : streamResult) {
+            System.out.println(b);
+        }
+
+        System.out.println("\nExecution Time:");
+        System.out.println("Loop Time   : " + loopTime + " ns");
+        System.out.println("Stream Time : " + streamTime + " ns");
     }
 }
