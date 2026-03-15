@@ -2,33 +2,35 @@
  * =============================================================
  * Project       : Train Consist Management App
  * Package       : com.seveneleven.trainconsist.main
- * Class Name    : UseCaseSeventeenTrainConsistMgmt
+ * Class Name    : UseCaseEighteenTrainConsistMgmt
  *
- * Use Case      : UC Seventeen - Sort Bogie Names
+ * Use Case      : UC Eighteen - Linear Search for Bogie ID
  *
  * Description   :
- * This program demonstrates how to sort bogie names using
- * Java’s built-in sorting method Arrays.sort().
+ * This program demonstrates how Linear Search works on an
+ * unsorted array of bogie IDs.
  *
  * The application:
- * 1. Creates an array of bogie type names.
- * 2. Displays the unsorted bogie list.
- * 3. Uses Arrays.sort() to sort the bogie names alphabetically.
- * 4. Displays the sorted result.
+ * 1. Creates an array of bogie IDs.
+ * 2. Accepts a bogie ID to search.
+ * 3. Traverses the array sequentially.
+ * 4. Compares each element with the search key.
+ * 5. Displays whether the bogie ID exists.
  *
  * Concepts Demonstrated:
- * - Arrays.sort()
- * - Natural ordering
- * - Built-in optimized sorting
- * - Arrays.toString()
+ * - Linear Search algorithm
+ * - Sequential traversal
+ * - String comparison using equals()
+ * - Early termination when match found
  *
  * Author        : Developer
- * Version       : 17.0
+ * Version       : 18.0
  * =============================================================
  */
 package com.seveneleven.TrainApp;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class TrainConsistApp {
 	
@@ -39,20 +41,35 @@ public class TrainConsistApp {
         System.out.println("      === Train Consist Management App ===");
         System.out.println("====================================================\n");
 
-        String[] bogieTypes = {
-                "Sleeper",
-                "AC Chair",
-                "First Class",
-                "Luxury AC",
-                "General"
+        String[] bogieIds = {
+                "BG101",
+                "BG102",
+                "BG103",
+                "BG104",
+                "BG105"
         };
 
-        System.out.println("Before Sorting:");
-        System.out.println(Arrays.toString(bogieTypes));
+        Scanner sc = new Scanner(System.in);
 
-        Arrays.sort(bogieTypes);
+        System.out.print("Enter Bogie ID to search: ");
+        String searchKey = sc.nextLine();
 
-        System.out.println("\nAfter Sorting:");
-        System.out.println(Arrays.toString(bogieTypes));
+        boolean found = false;
+
+        for (int i = 0; i < bogieIds.length; i++) {
+
+            if (bogieIds[i].equals(searchKey)) {
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            System.out.println("Bogie ID found in train consist.");
+        } else {
+            System.out.println("Bogie ID not found.");
+        }
+
+        sc.close();
     }
 }

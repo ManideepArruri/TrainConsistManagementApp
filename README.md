@@ -1,1 +1,1 @@
-Sort Bogie Names
+Sort Bogie Capacities
