@@ -1,1 +1,1 @@
-Count Total Seats in Train (reduce)
+Validate Train ID and Cargo Code

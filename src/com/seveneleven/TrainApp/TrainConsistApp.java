@@ -2,85 +2,81 @@
  * =============================================================
  * Project       : Train Consist Management App
  * Package       : com.seveneleven.trainconsist.main
- * Class Name    : UseCaseTenTrainConsistMgmt
+ * Class Name    : UseCaseElevenTrainConsistMgmt
  *
- * Use Case      : UC Ten - Count Total Seats in Train
+ * Use Case      : UC Eleven - Validate Train ID and Cargo Code
  *
  * Description   :
- * This program demonstrates how Java Streams can aggregate
- * numeric values using the reduce() operation.
+ * This program demonstrates how Regular Expressions (Regex)
+ * can be used to validate input formats for Train IDs and
+ * Cargo Codes.
  *
  * The application:
- * 1. Creates a list of passenger bogies.
- * 2. Converts the list into a stream.
- * 3. Extracts capacity values using map().
- * 4. Uses reduce() to calculate the total seating capacity.
- * 5. Displays the total seats available in the train.
+ * 1. Accepts Train ID and Cargo Code from the user.
+ * 2. Defines regex patterns for valid formats.
+ * 3. Uses Pattern and Matcher classes for validation.
+ * 4. Displays whether the inputs are valid or invalid.
  *
  * Concepts Demonstrated:
- * - Java Stream API
- * - map()
- * - reduce()
- * - Method reference
- * - Functional aggregation
+ * - Regular Expressions (Regex)
+ * - Pattern class
+ * - Matcher class
+ * - matches() method
+ * - Input validation
  *
  * Author        : Developer
- * Version       : 10.0
+ * Version       : 11.0
  * =============================================================
  */
-
 package com.seveneleven.TrainApp;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 
 public class TrainConsistApp {
-	static class Bogie {
-
-        String name;
-        int capacity;
-
-        public Bogie(String name, int capacity) {
-            this.name = name;
-            this.capacity = capacity;
-        }
-
-        public int getCapacity() {
-            return capacity;
-        }
-
-        public String toString() {
-            return name + " - Capacity: " + capacity;
-        }
-    }
+	
 
     public static void main(String[] args) {
 
-        System.out.println("====================================================");
+    	System.out.println("====================================================");
         System.out.println("      === Train Consist Management App ===");
         System.out.println("====================================================\n");
 
-        List<Bogie> bogies = new ArrayList<>();
+        Scanner sc = new Scanner(System.in);
 
-        bogies.add(new Bogie("Sleeper", 72));
-        bogies.add(new Bogie("AC Chair", 56));
-        bogies.add(new Bogie("First Class", 48));
-        bogies.add(new Bogie("Luxury AC", 80));
+        System.out.print("Enter Train ID (Format: TRN-1234): ");
+        String trainId = sc.nextLine();
 
-        System.out.println("Passenger Bogies:\n");
+        System.out.print("Enter Cargo Code (Format: PET-AB): ");
+        String cargoCode = sc.nextLine();
 
-        for (Bogie b : bogies) {
-            System.out.println(b);
+        String trainPattern = "TRN-\\d{4}";
+        String cargoPattern = "PET-[A-Z]{2}";
+
+        Pattern p1 = Pattern.compile(trainPattern);
+        Pattern p2 = Pattern.compile(cargoPattern);
+
+        Matcher m1 = p1.matcher(trainId);
+        Matcher m2 = p2.matcher(cargoCode);
+
+        if (m1.matches()) {
+            System.out.println("Valid Train ID");
+        } else {
+            System.out.println("Invalid Train ID");
         }
 
-        int totalSeats =
-                bogies.stream()
-                      .map(b -> b.capacity)
-                      .reduce(0, Integer::sum);
+        if (m2.matches()) {
+            System.out.println("Valid Cargo Code");
+        } else {
+            System.out.println("Invalid Cargo Code");
+        }
 
-        System.out.println("\nTotal Seating Capacity of Train: " + totalSeats);
+        sc.close();
     }
 }
