@@ -1,1 +1,1 @@
-Binary Search for Bogie ID
+Exception Handling During Search

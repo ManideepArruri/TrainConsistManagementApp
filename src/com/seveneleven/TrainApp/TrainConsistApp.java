@@ -2,29 +2,28 @@
  * =============================================================
  * Project       : Train Consist Management App
  * Package       : com.seveneleven.trainconsist.main
- * Class Name    : UseCaseNineteenTrainConsistMgmt
+ * Class Name    : UseCaseTwentyTrainConsistMgmt
  *
- * Use Case      : UC Nineteen - Binary Search for Bogie ID
+ * Use Case      : UC Twenty - Exception Handling During Search
  *
  * Description   :
- * This program demonstrates how Binary Search works on a
- * sorted array of bogie IDs.
+ * This program demonstrates defensive programming by preventing
+ * search operations when the train consist is empty.
  *
- * The application:
- * 1. Creates a sorted array of bogie IDs.
- * 2. Accepts a bogie ID to search.
- * 3. Uses the Binary Search algorithm.
- * 4. Repeatedly divides the search range in half.
- * 5. Displays whether the bogie ID exists.
+ * Rule:
+ * Searching should not be allowed if there are no bogies.
+ *
+ * If the train consist is empty, the system throws an
+ * IllegalStateException to stop the operation early.
  *
  * Concepts Demonstrated:
- * - Binary Search algorithm
- * - Divide and conquer strategy
- * - Sorted data requirement
- * - compareTo() for string comparison
+ * - Defensive programming
+ * - IllegalStateException
+ * - Fail-fast validation
+ * - Runtime exception handling
  *
  * Author        : Developer
- * Version       : 19.0
+ * Version       : 20.0
  * =============================================================
  */
 package com.seveneleven.TrainApp;
@@ -41,45 +40,40 @@ public class TrainConsistApp {
         System.out.println("      === Train Consist Management App ===");
         System.out.println("====================================================\n");
 
-        String[] bogieIds = {
-                "BG101",
-                "BG102",
-                "BG103",
-                "BG104",
-                "BG105"
-        };
+        String[] bogieIds = {};  // empty train
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Enter Bogie ID to search: ");
-        String key = sc.nextLine();
+        try {
 
-        int low = 0;
-        int high = bogieIds.length - 1;
-        boolean found = false;
-
-        while (low <= high) {
-
-            int mid = (low + high) / 2;
-
-            int comparison = bogieIds[mid].compareTo(key);
-
-            if (comparison == 0) {
-                found = true;
-                break;
+            if (bogieIds.length == 0) {
+                throw new IllegalStateException("Search operation not allowed. Train has no bogies.");
             }
-            else if (comparison < 0) {
-                low = mid + 1;
+
+            System.out.print("Enter Bogie ID to search: ");
+            String key = sc.nextLine();
+
+            boolean found = false;
+
+            for (String id : bogieIds) {
+
+                if (id.equals(key)) {
+                    found = true;
+                    break;
+                }
             }
-            else {
-                high = mid - 1;
+
+            if (found) {
+                System.out.println("Bogie ID found in train consist.");
+            } else {
+                System.out.println("Bogie ID not found.");
             }
+
         }
+        catch (IllegalStateException e) {
 
-        if (found) {
-            System.out.println("Bogie ID found in train consist.");
-        } else {
-            System.out.println("Bogie ID not found.");
+            System.out.println("Exception Occurred: " + e.getMessage());
+
         }
 
         sc.close();
